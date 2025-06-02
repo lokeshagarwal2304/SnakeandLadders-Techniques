@@ -1,0 +1,100 @@
+### 🐍🪜 Snake and Ladder Game in Java (Console)
+
+```java
+import java.util.*;
+
+public class SnakeAndLadder {
+
+    static Map<Integer, Integer> snakes = new HashMap<>();
+    static Map<Integer, Integer> ladders = new HashMap<>();
+    static Random random = new Random();
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Define snakes
+        snakes.put(99, 21);
+        snakes.put(95, 75);
+        snakes.put(92, 88);
+        snakes.put(89, 68);
+        snakes.put(74, 53);
+        snakes.put(62, 19);
+        snakes.put(49, 11);
+        snakes.put(46, 25);
+        snakes.put(16, 6);
+
+        // Define ladders
+        ladders.put(2, 38);
+        ladders.put(7, 14);
+        ladders.put(8, 31);
+        ladders.put(15, 26);
+        ladders.put(21, 42);
+        ladders.put(28, 84);
+        ladders.put(36, 44);
+        ladders.put(51, 67);
+        ladders.put(71, 91);
+        ladders.put(78, 98);
+        ladders.put(87, 94);
+
+        int[] positions = {0, 0};
+        int currentPlayer = 0;
+
+        System.out.println("🎮 Welcome to Snake and Ladder Game!");
+        System.out.println("Player 1 and Player 2 start at position 0.");
+
+        while (true) {
+            System.out.println("\nPlayer " + (currentPlayer + 1) + "'s turn. Press enter to roll the dice...");
+            sc.nextLine();
+            int dice = rollDice();
+            System.out.println("You rolled a " + dice + "!");
+
+            int newPos = positions[currentPlayer] + dice;
+            if (newPos > 100) {
+                System.out.println("Roll exceeds 100. Stay at " + positions[currentPlayer]);
+            } else {
+                positions[currentPlayer] = newPos;
+                System.out.println("Moved to " + newPos);
+                if (snakes.containsKey(newPos)) {
+                    positions[currentPlayer] = snakes.get(newPos);
+                    System.out.println("Oh no! Bitten by a snake 🐍. Slid down to " + positions[currentPlayer]);
+                } else if (ladders.containsKey(newPos)) {
+                    positions[currentPlayer] = ladders.get(newPos);
+                    System.out.println("Yay! Climbed a ladder 🪜. Moved up to " + positions[currentPlayer]);
+                }
+            }
+
+            if (positions[currentPlayer] == 100) {
+                System.out.println("🎉 Player " + (currentPlayer + 1) + " wins the game!");
+                break;
+            }
+
+            currentPlayer = 1 - currentPlayer;
+        }
+
+        sc.close();
+    }
+
+    static int rollDice() {
+        return random.nextInt(6) + 1;
+    }
+}
+```
+
+---
+
+### ✅ Features:
+
+* Classic 1 to 100 board
+* Predefined snakes and ladders
+* Two-player mode
+* Text-based console interface
+
+---
+
+### 🧪 How to Run:
+
+1. Save the code as `SnakeAndLadder.java`
+2. Compile: `javac SnakeAndLadder.java`
+3. Run: `java SnakeAndLadder`
+
+---
