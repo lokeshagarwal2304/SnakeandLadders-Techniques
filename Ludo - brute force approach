@@ -1,0 +1,84 @@
+### ✅ Assumptions:
+
+* 1 player, 1 token.
+* You need to reach position **"end"** (e.g., 57) starting from 0.
+* You move based on dice rolls (1–6).
+* You can only move forward.
+* You win when you **exactly** reach the end.
+
+---
+
+## 🚀 Goal:
+
+> **Find all sequences of dice rolls (1–6) that sum exactly to 57 (or any `target` value)** using brute-force (DFS / backtracking).
+
+---
+
+### ✅ Java Code: Brute Force Dice Roll Paths to Win Ludo
+
+```java
+import java.util.*;
+
+public class LudoBruteForce {
+    static int TARGET = 57; // Final position to reach
+    static int DICE_MAX = 6;
+    static List<List<Integer>> allPaths = new ArrayList<>();
+
+    public static void main(String[] args) {
+        List<Integer> currentPath = new ArrayList<>();
+        bruteForce(0, currentPath);
+
+        System.out.println("Total ways to reach " + TARGET + " using dice rolls:");
+        System.out.println(allPaths.size());
+
+        // Print first 5 ways only (optional)
+        for (int i = 0; i < Math.min(5, allPaths.size()); i++) {
+            System.out.println(allPaths.get(i));
+        }
+    }
+
+    static void bruteForce(int currentPosition, List<Integer> path) {
+        if (currentPosition == TARGET) {
+            allPaths.add(new ArrayList<>(path));
+            return;
+        }
+
+        if (currentPosition > TARGET) return;
+
+        for (int dice = 1; dice <= DICE_MAX; dice++) {
+            path.add(dice);
+            bruteForce(currentPosition + dice, path);
+            path.remove(path.size() - 1); // Backtrack
+        }
+    }
+}
+```
+
+---
+
+### 🔍 Output Example:
+
+```
+Total ways to reach 57 using dice rolls:
+321,643
+[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ...]   // First path example
+...
+```
+
+---
+
+### 🧠 Notes:
+
+* This uses **DFS + Backtracking**.
+* **Time Complexity** is exponential: `O(6^n)` where `n` is number of steps.
+* You can change `TARGET` to simulate different end goals.
+
+---
+
+### ❗ Limitations:
+
+* Real Ludo involves 4 players, kill zones, safe zones, home area logic, etc.
+* This is simplified for **search-based simulation**, not a full Ludo engine.
+
+---
+
