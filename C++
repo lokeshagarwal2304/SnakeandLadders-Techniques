@@ -1,0 +1,77 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+using namespace std;
+
+const int WIN_POINT = 100;
+
+// Snakes and ladders mapping
+int snakeLadderPosition(int pos) {
+    // Ladders
+    if (pos == 3) return 22;
+    if (pos == 5) return 8;
+    if (pos == 11) return 26;
+    if (pos == 20) return 29;
+    // Snakes
+    if (pos == 27) return 1;
+    if (pos == 21) return 9;
+    if (pos == 17) return 4;
+    if (pos == 19) return 7;
+    return pos;
+}
+
+// Dice roll simulation
+int rollDice() {
+    return (rand() % 6) + 1;
+}
+
+// Main game logic
+void playGame() {
+    int player1 = 0, player2 = 0;
+    int currentPlayer = 1;
+    string name1, name2;
+
+    cout << "Enter Player 1 name: ";
+    cin >> name1;
+    cout << "Enter Player 2 name: ";
+    cin >> name2;
+
+    srand(time(0));
+
+    while (player1 < WIN_POINT && player2 < WIN_POINT) {
+        int dice = rollDice();
+        cout << "\n" << (currentPlayer == 1 ? name1 : name2) << " rolled a " << dice << endl;
+
+        if (currentPlayer == 1) {
+            if (player1 + dice <= WIN_POINT) {
+                player1 += dice;
+                player1 = snakeLadderPosition(player1);
+            }
+            cout << name1 << " is at position: " << player1 << endl;
+            if (player1 == WIN_POINT) {
+                cout << "\n🎉 " << name1 << " wins the game! 🎉" << endl;
+                break;
+            }
+        } else {
+            if (player2 + dice <= WIN_POINT) {
+                player2 += dice;
+                player2 = snakeLadderPosition(player2);
+            }
+            cout << name2 << " is at position: " << player2 << endl;
+            if (player2 == WIN_POINT) {
+                cout << "\n🎉 " << name2 << " wins the game! 🎉" << endl;
+                break;
+            }
+        }
+
+        // Change turn
+        if (dice != 6) currentPlayer = (currentPlayer == 1) ? 2 : 1;
+    }
+}
+
+// Driver
+int main() {
+    cout << "🎲 Welcome to Snake and Ladders Game 🎲\n";
+    playGame();
+    return 0;
+}
